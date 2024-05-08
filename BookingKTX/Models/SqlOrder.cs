@@ -12,7 +12,8 @@ namespace BookingKTX.Models
         public SqlCustomer? customer { get; set; }
         public string code { get; set; } = "";
         public SqlShop? shop { get; set; }
-        public List<SqlProduct>? products { get; set; }
+        public SqlUser? shipper { get; set; }
+        public List<SqlCartOrder>? cartOrders { get; set; }
         public SqlState? state { get; set; }
         public string note { get; set; } = "";
         public double total { get; set; } = 0;

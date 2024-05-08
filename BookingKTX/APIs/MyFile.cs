@@ -59,7 +59,7 @@ namespace BookingKTX.APIs
                 m_file.link = link_file;
                 m_file.name = file;
                 m_file.time = DateTime.Now.ToUniversalTime();
-                
+
                 context.files!.Add(m_file);
                 int rows = await context.SaveChangesAsync();
                 if (rows > 0)

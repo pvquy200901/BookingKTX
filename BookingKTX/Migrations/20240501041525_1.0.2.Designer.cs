@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BookingKTX.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingKTX.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240501041525_1.0.2")]
+    partial class _102
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,84 +50,6 @@ namespace BookingKTX.Migrations
                     b.ToTable("tb_action");
                 });
 
-            modelBuilder.Entity("BookingKTX.Models.SqlCart", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
-
-                    b.Property<string>("code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("isdeleted")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("tb_cart");
-                });
-
-            modelBuilder.Entity("BookingKTX.Models.SqlCartOrder", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
-
-                    b.Property<long?>("SqlOrderID")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("isdeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<long?>("productID")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("SqlOrderID");
-
-                    b.HasIndex("productID");
-
-                    b.ToTable("tb_cartOrder");
-                });
-
-            modelBuilder.Entity("BookingKTX.Models.SqlCartProduct", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
-
-                    b.Property<long?>("SqlCartID")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("isdeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<long?>("productID")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("SqlCartID");
-
-                    b.HasIndex("productID");
-
-                    b.ToTable("tb_cartProduct");
-                });
-
             modelBuilder.Entity("BookingKTX.Models.SqlCustomer", b =>
                 {
                     b.Property<long>("ID")
@@ -136,13 +61,6 @@ namespace BookingKTX.Migrations
                     b.Property<string>("address")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("avarta")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long?>("cartID")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("code")
                         .IsRequired()
@@ -167,17 +85,11 @@ namespace BookingKTX.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("token")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("cartID");
 
                     b.ToTable("tb_customer");
                 });
@@ -309,6 +221,9 @@ namespace BookingKTX.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
 
+                    b.Property<long?>("SqlOrderID")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("code")
                         .IsRequired()
                         .HasColumnType("text");
@@ -323,19 +238,12 @@ namespace BookingKTX.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("price")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("priceBuy")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("integer");
-
                     b.Property<long?>("shopID")
                         .HasColumnType("bigint");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("SqlOrderID");
 
                     b.HasIndex("shopID");
 
@@ -388,10 +296,6 @@ namespace BookingKTX.Migrations
 
                     b.Property<DateTime>("createdTime")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("image")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<bool>("isdeleted")
                         .HasColumnType("boolean");
@@ -522,41 +426,6 @@ namespace BookingKTX.Migrations
                     b.ToTable("tb_user");
                 });
 
-            modelBuilder.Entity("BookingKTX.Models.SqlCartOrder", b =>
-                {
-                    b.HasOne("BookingKTX.Models.SqlOrder", null)
-                        .WithMany("cartOrders")
-                        .HasForeignKey("SqlOrderID");
-
-                    b.HasOne("BookingKTX.Models.SqlProduct", "product")
-                        .WithMany()
-                        .HasForeignKey("productID");
-
-                    b.Navigation("product");
-                });
-
-            modelBuilder.Entity("BookingKTX.Models.SqlCartProduct", b =>
-                {
-                    b.HasOne("BookingKTX.Models.SqlCart", null)
-                        .WithMany("cartProducts")
-                        .HasForeignKey("SqlCartID");
-
-                    b.HasOne("BookingKTX.Models.SqlProduct", "product")
-                        .WithMany()
-                        .HasForeignKey("productID");
-
-                    b.Navigation("product");
-                });
-
-            modelBuilder.Entity("BookingKTX.Models.SqlCustomer", b =>
-                {
-                    b.HasOne("BookingKTX.Models.SqlCart", "cart")
-                        .WithMany()
-                        .HasForeignKey("cartID");
-
-                    b.Navigation("cart");
-                });
-
             modelBuilder.Entity("BookingKTX.Models.SqlLogOrder", b =>
                 {
                     b.HasOne("BookingKTX.Models.SqlAction", "action")
@@ -607,6 +476,10 @@ namespace BookingKTX.Migrations
 
             modelBuilder.Entity("BookingKTX.Models.SqlProduct", b =>
                 {
+                    b.HasOne("BookingKTX.Models.SqlOrder", null)
+                        .WithMany("products")
+                        .HasForeignKey("SqlOrderID");
+
                     b.HasOne("BookingKTX.Models.SqlShop", "shop")
                         .WithMany("products")
                         .HasForeignKey("shopID");
@@ -638,11 +511,6 @@ namespace BookingKTX.Migrations
                     b.Navigation("shop");
                 });
 
-            modelBuilder.Entity("BookingKTX.Models.SqlCart", b =>
-                {
-                    b.Navigation("cartProducts");
-                });
-
             modelBuilder.Entity("BookingKTX.Models.SqlCustomer", b =>
                 {
                     b.Navigation("orders");
@@ -650,7 +518,7 @@ namespace BookingKTX.Migrations
 
             modelBuilder.Entity("BookingKTX.Models.SqlOrder", b =>
                 {
-                    b.Navigation("cartOrders");
+                    b.Navigation("products");
                 });
 
             modelBuilder.Entity("BookingKTX.Models.SqlShop", b =>

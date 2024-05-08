@@ -18,6 +18,9 @@ public class Program
     public static MyState api_state = new MyState();
     public static MyType api_type = new MyType();
     public static MyRole api_role = new MyRole();
+    public static MyShop api_shop = new MyShop();
+    public static MyProduct api_product = new MyProduct();
+    public static MyCustomer api_customer = new MyCustomer();
 
     /*public static IHubContext<NotificationDeviceHub>? notificationDeviceHub;
     public static IHubContext<NotificationUserHub>? notificationUserHub;*/
@@ -66,15 +69,17 @@ public class Program
             });
 
 
-           /* builder.Services.AddSignalR(option =>
-            {
-                option.EnableDetailedErrors = true;
-                option.KeepAliveInterval = TimeSpan.FromSeconds(5);
-                option.MaximumReceiveMessageSize = 10 * 1024 * 1024;
-                option.StreamBufferCapacity = 10 * 1024 * 1024;
-            }).AddMessagePackProtocol();*/
+            /* builder.Services.AddSignalR(option =>
+             {
+                 option.EnableDetailedErrors = true;
+                 option.KeepAliveInterval = TimeSpan.FromSeconds(5);
+                 option.MaximumReceiveMessageSize = 10 * 1024 * 1024;
+                 option.StreamBufferCapacity = 10 * 1024 * 1024;
+             }).AddMessagePackProtocol();*/
 
+            // builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(DataContext.configSql));
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(DataContext.configSql));
+            //UseSQLServer
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -123,8 +128,9 @@ public class Program
             app.MapControllers();
             app.MapGet("/", () => string.Format("Booking KTX - {0}", DateTime.Now));
 
-            await api_role.initAsync();
+            await api_type.initAsync();
             await api_user.initAsync();
+            await api_role.initAsync();
             //api_file.initCreateTargetFile("EXB_1");
 
             app.Run();

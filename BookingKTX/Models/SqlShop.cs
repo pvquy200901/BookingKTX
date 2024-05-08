@@ -10,6 +10,7 @@ namespace BookingKTX.Models
         public long ID { get; set; }
         public string code { get; set; } = "";
         public string name { get; set; } = "";
+        public string image { get; set; } = "";
         public bool isdeleted { get; set; } = false;
         public DateTime createdTime { get; set; }
         public DateTime lastestTime { get; set; }

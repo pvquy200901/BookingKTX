@@ -17,6 +17,7 @@ namespace BookingKTX.Models
         public DbSet<SqlShop>? shops { get; set; }
         public DbSet<SqlState>? states { get; set; }
         public DbSet<SqlType>? types { get; set; }
+        public DbSet<SqlCart>? carts { get; set; }
 
 
 
@@ -28,6 +29,7 @@ namespace BookingKTX.Models
         }
         //public static string configSql = "";
         public static string configSql = "Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres";
+       // public static string configSql = "Host=HAIBROTHER\\MSSQLSERVER01;Database=db_booking_ktx;Username=sa;Password=123456";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,6 +41,8 @@ namespace BookingKTX.Models
         {
             modelBuilder.Entity<SqlProduct>().HasOne<SqlShop>(s => s.shop).WithMany(s => s.products);
             modelBuilder.Entity<SqlOrder>().HasOne<SqlCustomer>(s => s.customer).WithMany(s => s.orders);
+            modelBuilder.Entity<SqlOrder>().HasOne<SqlUser>(s => s.shipper).WithMany(s => s.orderShippers);
+            //modelBuilder.Entity<SqlCart>().HasOne<SqlCustomer>(s => s.customer).WithOne(s => s.cart);
         }
 
     }

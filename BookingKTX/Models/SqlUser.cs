@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingKTX.Models
 {
@@ -19,6 +19,7 @@ namespace BookingKTX.Models
         public string phoneNumber { get; set; } = "";
         public string avatar { get; set; } = "";
         public SqlRole? role { get; set; }
-
+        public List<SqlOrder>? orderShippers { get; set; }
+        public SqlShop? shop { get; set; }
     }
 }
