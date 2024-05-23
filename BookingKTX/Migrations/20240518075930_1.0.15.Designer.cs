@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BookingKTX.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingKTX.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240518075930_1.0.15")]
+    partial class _1015
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -505,14 +508,6 @@ namespace BookingKTX.Migrations
 
                     b.Property<bool>("isdeleted")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("latitude")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("longitude")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("password")
                         .IsRequired()

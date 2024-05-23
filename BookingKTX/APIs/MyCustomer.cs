@@ -1,6 +1,8 @@
 ﻿using BookingKTX.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using static BookingKTX.APIs.MyProduct;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BookingKTX.APIs
 {
@@ -55,16 +57,16 @@ namespace BookingKTX.APIs
             }
         }
 
-        public async Task<bool> createUserAsync(  string username, string password, string displayName, string phoneNumber, string address)
+        public async Task<bool> createUserAsync(string username, string password, string displayName, string phoneNumber, string address, byte[] image)
         {
-            if ( string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(displayName) || string.IsNullOrEmpty(phoneNumber))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(displayName) || string.IsNullOrEmpty(phoneNumber))
             {
                 return false;
             }
-
+            string codefile = "";
             using (var context = new DataContext())
             {
-               
+
 
                 SqlCustomer? tmp = context.customers!.Where(s => s.isdeleted == false && (s.username.CompareTo(username) == 0) || s.phone.CompareTo(phoneNumber) == 0).FirstOrDefault();
                 if (tmp != null)
@@ -84,6 +86,12 @@ namespace BookingKTX.APIs
                 new_user.address = address;
                 new_user.phone = phoneNumber;
                 new_user.token = Program.api_user.createToken();
+                codefile = await Program.api_file.saveFileAsync(DateTime.Now.Ticks.ToString(), image);
+                if (string.IsNullOrEmpty(codefile))
+                {
+                    return false;
+                }
+                new_user.avarta = codefile;
 
                 SqlCart tmpCart = new SqlCart();
                 tmpCart.ID = DateTime.Now.Ticks;
@@ -98,7 +106,7 @@ namespace BookingKTX.APIs
             }
         }
 
-        public async Task<bool> editUserAsync(string code, string password, string displayName, string numberPhone, string address)
+        public async Task<bool> editUserAsync(string? code, string? password, string? displayName, string? numberPhone, string? address, byte[] image)
         {
             if (string.IsNullOrEmpty(code))
             {
@@ -106,7 +114,8 @@ namespace BookingKTX.APIs
             }
             using (DataContext context = new DataContext())
             {
-               
+                string codefile = "";
+
 
                 SqlCustomer? tmp = context.customers!.Where(s => s.code.CompareTo(code) == 0 && s.isdeleted == false).FirstOrDefault();
                 if (tmp == null)
@@ -133,6 +142,11 @@ namespace BookingKTX.APIs
                 if (!string.IsNullOrWhiteSpace(address))
                 {
                     tmp.address = address;
+                }
+                if(image != null)
+                {
+                    codefile = await Program.api_file.saveFileAsync(DateTime.Now.Ticks.ToString(), image);
+                    tmp.avarta = codefile;
                 }
 
                 int rows = await context.SaveChangesAsync();
@@ -190,7 +204,7 @@ namespace BookingKTX.APIs
                 {
                     return false;
                 }
-                if(own_user.role!.code.CompareTo("admin") != 0)
+                if (own_user.role!.code.CompareTo("admin") != 0)
                 {
                     return false;
                 }
@@ -244,6 +258,56 @@ namespace BookingKTX.APIs
             }
         }
 
+        public async Task<bool> updateCartProduct(int quantity, long ID)
+        {
+
+
+            using (DataContext context = new DataContext())
+            {
+                SqlCartProduct? cartProduct = context.cartProducts!.Where(s => s.isdeleted == false && s.ID == ID).FirstOrDefault();
+                if (cartProduct == null)
+                {
+                    return false;
+                }
+
+                cartProduct.quantity = quantity;
+                int rows = await context.SaveChangesAsync();
+                if (rows > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> deleteCartProduct(string ID)
+        {
+
+
+            using (DataContext context = new DataContext())
+            {
+                SqlCartProduct? cartProduct = context.cartProducts!.Where(s => s.isdeleted == false && s.ID == long.Parse(ID)).FirstOrDefault();
+                if (cartProduct == null)
+                {
+                    return false;
+                }
+
+                cartProduct.isdeleted = true;
+                int rows = await context.SaveChangesAsync();
+                if (rows > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public class ItemCustomer
         {
             public string user { get; set; } = "";
@@ -268,7 +332,7 @@ namespace BookingKTX.APIs
                     {
                         if (user.cart != null && user.cart.cartProducts != null)
                         {
-                            return user.cart.cartProducts.Count();
+                            return user.cart.cartProducts.Where(s => s.isdeleted == false && s.isFinish == false).Count();
                         }
                         else
                         {
@@ -370,6 +434,75 @@ namespace BookingKTX.APIs
 
         }
 
+        public class ItemCartProduct
+        {
+            public ItemProduct product { get; set; } = new ItemProduct();
+            public int quantity { get; set; }
+            public string ID { get; set; } = "";
+        }
+
+
+        public List<ItemCartProduct> getListCartProduct(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return new List<ItemCartProduct>();
+            }
+
+            using (var context = new DataContext())
+            {
+                List<ItemCartProduct> tmps = new List<ItemCartProduct>();
+
+                try
+                {
+                    SqlCustomer? own_user = context.customers!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.cart).ThenInclude(s => s.cartProducts!).ThenInclude(s => s.product).ThenInclude(s => s.shop).FirstOrDefault();
+                    if (own_user == null || own_user.cart == null)
+                    {
+                        return new List<ItemCartProduct>();
+                    }
+                    if (own_user.cart.cartProducts != null)
+                    {
+                        foreach (SqlCartProduct item in own_user.cart.cartProducts)
+                        {
+                            if (item.isdeleted == false && item.isFinish == false)
+                            {
+                                ItemCartProduct tmp = new ItemCartProduct();
+                                tmp.ID = item.ID.ToString();
+                                tmp.quantity = item.quantity;
+                                if (item.product != null)
+                                {
+                                    tmp.product.code = item.product.code;
+                                    tmp.product.name = item.product.name;
+                                    tmp.product.price = item.product.price;
+                                    if(item.product.shop != null)
+                                    {
+                                        tmp.product.shop = item.product.shop.code;
+
+                                    }
+                                    tmp.product.quantity = item.product.quantity.ToString();
+                                    if (item.product.images != null)
+                                    {
+                                        tmp.product.images = item.product.images;
+
+                                    }
+                                }
+
+                                tmps.Add(tmp);
+                            }
+
+                        }
+                    }
+
+                    // own_user.cart.products!.Add(m_product);
+
+                    return tmps;
+                }
+                catch (Exception e)
+                {
+                    return new List<ItemCartProduct>();
+                }
+            }
+        }
 
     }
 }

@@ -1,0 +1,3 @@
+2024-05-14 20:53:09.194 +07:00 [INF] Connected to Server at : 5/14/2024 8:53:09 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-14 21:00:02.703 +07:00 [INF] Connected to Server at : 5/14/2024 9:00:02 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-14 21:01:33.925 +07:00 [INF] Connected to Server at : 5/14/2024 9:01:33 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 

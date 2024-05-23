@@ -185,10 +185,6 @@ namespace BookingKTX.APIs
                     }
                 }
 
-
-                context.products!.Add(product);
-
-
                 int rows = await context.SaveChangesAsync();
                 return rows > 0;
             }
@@ -228,7 +224,9 @@ namespace BookingKTX.APIs
             public string code { get; set; } = "";
             public string name { get; set; } = "";
             public decimal price { get; set; }
+            public string shop { get; set; } = "";
             public string quantity { get; set; } = "";
+            public string totalBuy { get; set; } = "";
             public List<string> images { get; set; } = new List<string>();
         }
 
@@ -250,6 +248,123 @@ namespace BookingKTX.APIs
                         item.code = product.code;
                         item.name = product.name;
                         item.price = product.price;
+                        item.quantity = product.quantity.ToString();
+                        if (product.images != null)
+                        {
+                            item.images = product.images;
+                        }
+                        ret.Add(item);
+                    }
+                }
+
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                return new List<ItemProduct>();
+            }
+
+        }
+
+        public List<ItemProduct> getListProductForUser(string token)
+        {
+            try
+            {
+                List<ItemProduct> ret = new List<ItemProduct>();
+
+                using (DataContext context = new DataContext())
+                {
+                    SqlUser? tmp = context.users!.Where(s => s.token.CompareTo(token) == 0).Include(s => s.shop).ThenInclude(s => s.products).FirstOrDefault();
+                    
+                    if(tmp == null || tmp.shop == null || tmp.shop.products == null)
+                    {
+                        return new List<ItemProduct>();
+                    }
+
+                    foreach (SqlProduct product in tmp.shop.products)
+                    {
+                        if(product.isdeleted == false)
+                        {
+                            ItemProduct item = new ItemProduct();
+
+                            item.code = product.code;
+                            item.name = product.name;
+                            item.price = product.price;
+                            item.quantity = product.quantity.ToString();
+                            if (product.images != null)
+                            {
+                                item.images = product.images;
+                            }
+                            ret.Add(item);
+                        }
+                       
+                    }
+                }
+
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                return new List<ItemProduct>();
+            }
+
+        }
+
+        public List<ItemProduct> SearchProduct()
+        {
+            try
+            {
+                List<ItemProduct> ret = new List<ItemProduct>();
+
+                using (DataContext context = new DataContext())
+                {
+                    List<SqlProduct>? products = context.products!.Include(s => s.shop).Where(x => !x.isdeleted)
+                                                .ToList();
+
+                    foreach (SqlProduct product in products)
+                    {
+                        ItemProduct item = new ItemProduct();
+
+                        item.code = product.code;
+                        item.name = product.name;
+                        item.price = product.price;
+                        item.quantity = product.quantity.ToString();
+                        if (product.images != null)
+                        {
+                            item.images = product.images;
+                        }
+                        ret.Add(item);
+                    }
+                }
+
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                return new List<ItemProduct>();
+            }
+
+        }
+
+        public List<ItemProduct> getListProductBestSeller()
+        {
+            try
+            {
+                List<ItemProduct> ret = new List<ItemProduct>();
+
+                using (DataContext context = new DataContext())
+                {
+                    List<SqlProduct>? products = context.products!.Where(x => !x.isdeleted && x.totalBuy > 20).OrderByDescending(s => s.totalBuy)
+                                                .ToList();
+
+                    foreach (SqlProduct product in products)
+                    {
+                        ItemProduct item = new ItemProduct();
+
+                        item.code = product.code;
+                        item.name = product.name;
+                        item.price = product.price;
+                        item.totalBuy = product.totalBuy.ToString();
                         item.quantity = product.quantity.ToString();
                         if (product.images != null)
                         {
@@ -302,7 +417,7 @@ namespace BookingKTX.APIs
             }
 
         }
-        public async Task<bool> addToCart(string token, string product)
+        public async Task<bool> addToCart(string token, string product, int quantity)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -312,23 +427,46 @@ namespace BookingKTX.APIs
             using (var context = new DataContext())
             {
 
-                try{
-                    SqlCustomer? own_user = context.customers!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.cart).ThenInclude(s => s.cartProducts).FirstOrDefault();
+                try
+                {
+                    SqlCustomer? own_user = context.customers!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.cart).ThenInclude(s => s.cartProducts!).ThenInclude(s => s.product).FirstOrDefault();
                     if (own_user == null || own_user.cart == null)
                     {
                         return false;
                     }
 
                     SqlProduct? m_product = context.products!.Include(s => s.shop).Where(s => s.isdeleted == false && s.code.CompareTo(product) == 0).FirstOrDefault();
-                    if (product == null)
+                    if (m_product == null)
                     {
                         return false;
+                    }
+                    if (own_user.cart.cartProducts != null)
+                    {
+                       SqlCartProduct? cartProduct =  own_user.cart.cartProducts.Where(s => s.product != null &&  s.product.code.CompareTo(m_product.code) == 0 && s.isFinish == false && s.isdeleted == false).FirstOrDefault();
+                        if(cartProduct == null)
+                        {
+                            SqlCartProduct tmp = new SqlCartProduct();
+
+                            tmp.ID = DateTime.Now.Ticks;
+                            tmp.quantity = quantity;
+                            tmp.product = m_product;
+
+                            context.cartProducts!.Add(tmp);
+
+
+                            own_user.cart.cartProducts.Add(tmp);
+                        }
+                        else
+                        {
+                            cartProduct.quantity = quantity;
+                        }
+
                     }
 
                    // own_user.cart.products!.Add(m_product);
 
                     int rows = await context.SaveChangesAsync();
-                    return rows > 0;
+                    return true;
                 }
                 catch (Exception e)
                 {

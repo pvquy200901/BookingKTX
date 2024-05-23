@@ -86,6 +86,27 @@ namespace BookingKTX.Controllers
                 return Unauthorized();
             }
         }
+
+
+        public class ItemLocation
+        {
+            public string latitude { get; set; } = "";
+            public string longitude { get; set; } = "";
+        }
+        [HttpPut]
+        [Route("updateLatLongUser")]
+        public async Task<IActionResult> updateLatLongUser([FromHeader] string token, ItemLocation user)
+        {
+            bool flag = await Program.api_user.updateLatLongUserAsync(token, user.latitude, user.longitude);
+            if (flag)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
         [HttpDelete]
         [Route("{code}/delete")]
         public async Task<IActionResult> deleteUserAsync([FromHeader] string token, string code)
@@ -125,33 +146,72 @@ namespace BookingKTX.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getListUserShipper")]
+        public IActionResult GetListUserShipper([FromHeader] string token)
+        {
+            //Khong chan user nua
+            long id = Program.api_user.checkUser(token);
+            if (id >= 0)
+            {
+                return Ok(Program.api_user.listUserShipper(token));
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpGet]
+        [Route("getListUserShop")]
+        public IActionResult getListUserShop([FromHeader] string token)
+        {
+            //Khong chan user nua
+            long id = Program.api_user.checkUser(token);
+            if (id >= 0)
+            {
+                return Ok(Program.api_user.listUserForShop(token));
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
         public class HttpItemShop
         {
-            public string code { get; set; } = "";
+            public string? code { get; set; }
             public string name { get; set; } = "";
-            public string type { get; set; } = "";
+            public string? type { get; set; } = "";
             public IFormFile? image { get; set; }
         }
 
         [HttpPost]
         [Route("createShop")]
-        public async Task<IActionResult> CreateShopAsync([FromHeader] string token, HttpItemShop shop)
+        public async Task<IActionResult> CreateShopAsync([FromHeader] string token, [FromForm] HttpItemShop shop)
         {
             long id = Program.api_user.checkRoles(token, new string[] { "admin", "manager" });
             if (id >= 0)
             {
-                byte[] image = new byte[shop.image.Length]; 
-                using (MemoryStream ms = new MemoryStream())
+                if (shop.image != null)
                 {
-                    shop.image?.CopyTo(ms);
-                    image = ms.ToArray();
+                    byte[] image = new byte[shop.image.Length];
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        shop.image?.CopyTo(ms);
+                        image = ms.ToArray();
 
-                }
+                    }
 
-                bool flag = await Program.api_shop.createShopAsync(token,shop.name,shop.type, image);
-                if (flag)
-                {
-                    return Ok();
+                    bool flag = await Program.api_shop.createShopAsync(token, shop.name, shop.type, image);
+                    if (flag)
+                    {
+                        return Ok();
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
                 }
                 else
                 {
@@ -166,12 +226,23 @@ namespace BookingKTX.Controllers
 
         [HttpPut]
         [Route("editShop")]
-        public async Task<IActionResult> editShopAsync([FromHeader] string token, HttpItemShop shop)
+        public async Task<IActionResult> editShopAsync([FromHeader] string token, [FromForm] HttpItemShop shop)
         {
             long id = Program.api_user.checkSystem(token);
             if (id >= 0)
             {
-                bool flag = await Program.api_shop.editShopAsync(token, shop.code, shop.name,shop.type);
+                byte[] image = null;
+                if(shop.image != null)
+                {
+                    image = new byte[shop.image.Length];
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        shop.image?.CopyTo(ms);
+                        image = ms.ToArray();
+
+                    }
+                }
+                bool flag = await Program.api_shop.editShopAsync(token, shop.code, shop.name,shop.type, image);
                 if (flag)
                 {
                     return Ok();
@@ -214,6 +285,13 @@ namespace BookingKTX.Controllers
         public IActionResult GetListShop()
         {
             return Ok(Program.api_shop.getListShop());
+        }
+
+        [HttpGet]
+        [Route("getInfoShop")]
+        public IActionResult GetListShop([FromHeader] string token)
+        {
+            return Ok(Program.api_shop.getInfoShop(token));
         }
 
         [HttpPost]
@@ -433,6 +511,13 @@ namespace BookingKTX.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        [HttpGet]
+        [Route("getListOrderForUser")]
+        public IActionResult getListOrder([FromHeader] string token)
+        {
+            return Ok(Program.api_order.getListOrderForUser(token));
         }
 
 

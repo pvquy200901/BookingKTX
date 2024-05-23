@@ -11,6 +11,7 @@ namespace BookingKTX.Models
         public SqlOrder? order { get; set; }
         public SqlUser? user { get; set; }
         public SqlAction? action { get; set; }
+        public SqlState? state { get; set; }
         public DateTime time { get; set; }
         public string note { get; set; } = "";
     }

@@ -137,7 +137,7 @@ namespace BookingKTX.APIs
 
             using (var context = new DataContext())
             {
-                SqlUser? own_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.role).FirstOrDefault();
+                SqlUser? own_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.role).Include(s => s.shop).FirstOrDefault();
                 if (own_user == null || own_user.role!.code.CompareTo("shipper") == 0)
                 {
                     return false;
@@ -148,7 +148,7 @@ namespace BookingKTX.APIs
                     return false;
                 }
 
-                SqlUser? tmp = context.users!.Where(s => s.isdeleted == false && (s.code.CompareTo(code) == 0 || s.username.CompareTo(username) == 0)).FirstOrDefault();
+                SqlUser? tmp = context.users!.Where(s => s.isdeleted == false && (s.code.CompareTo(code) == 0 || s.username.CompareTo(username) == 0)).Include(s => s.shop).FirstOrDefault();
                 if (tmp != null)
                 {
                     return false;
@@ -168,8 +168,12 @@ namespace BookingKTX.APIs
                 new_user.role = m_role;
                 new_user.isdeleted = false;
                 new_user.displayName = displayName;
-                //new_user.phoneNumber = phoneNumber;
+                new_user.phoneNumber = phoneNumber;
                 new_user.token = createToken();
+                if(own_user.role.code.CompareTo("manager") == 0 && own_user.shop != null)
+                {
+                    new_user.shop = own_user.shop;
+                }
 
                 context.users!.Add(new_user);
 
@@ -227,6 +231,33 @@ namespace BookingKTX.APIs
             }
         }
 
+        public async Task<bool> updateLatLongUserAsync(string token, string latitude, string longitude)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+            using (DataContext context = new DataContext())
+            {
+                SqlUser? own_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.role).FirstOrDefault();
+                if (own_user == null)
+                {
+                    return false;
+                }
+                own_user.latitude = latitude;
+                own_user.longitude = longitude;
+
+                int rows = await context.SaveChangesAsync();
+                if (rows > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         public async Task<bool> editPasswordAsync(string token, string curPass, string newPass)
         {
             using (DataContext context = new DataContext())
@@ -368,6 +399,144 @@ namespace BookingKTX.APIs
                 return new List<ItemUser>();
             }
 
+        }
+
+        public List<ItemUser> listUserForShop(string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(token))
+                {
+                    return new List<ItemUser>();
+                }
+                using (DataContext context = new DataContext())
+                {
+                    List<ItemUser> items = new List<ItemUser>();
+
+                    SqlUser? m_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) ==0).Include(s => s.shop).ThenInclude(s => s.users!).ThenInclude(s => s.role)
+                            .FirstOrDefault();
+
+                    if (m_user == null)
+                    {
+                        return new List<ItemUser>();
+                    }
+                    if (m_user.shop != null)
+                    {
+                        if (m_user.shop.users != null)
+                        {
+                            foreach (SqlUser user in m_user.shop.users)
+                            {
+                                ItemUser item = new ItemUser();
+                                item.user = user.code;
+                                item.username = user.username;
+                                item.displayName = user.displayName;
+                                item.numberPhone = user.phoneNumber;
+                                item.roleName = user.role!.name;
+
+                                items.Add(item);
+                            }
+                        }
+                    }
+
+                    return items;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"func : listUserByArea -> failed -> Ex: {ex.Message}");
+                return new List<ItemUser>();
+            }
+
+        }
+        public List<ItemUser> listUserShipper(string token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(token))
+                {
+                    return new List<ItemUser>();
+                }
+                using (DataContext context = new DataContext())
+                {
+                    List<ItemUser> items = new List<ItemUser>();
+
+                    SqlUser? m_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.shop).ThenInclude(s => s.users!).ThenInclude(s => s.role)
+                            .FirstOrDefault();
+
+                    if(m_user == null)
+                    {
+                        return new List<ItemUser>();
+                    }
+                    if(m_user.shop != null)
+                    {
+                        if(m_user.shop.users != null)
+                        {
+                            foreach (SqlUser user in m_user.shop.users)
+                            {
+                                if(user.role!.code.CompareTo("shipper") == 0)
+                                {
+                                    ItemUser item = new ItemUser();
+                                    item.user = user.code;
+                                    item.username = user.username;
+                                    item.displayName = user.displayName;
+                                    item.numberPhone = user.phoneNumber;
+                                    item.roleName = user.role!.name;
+
+                                    items.Add(item);
+                                }
+                            }
+                        }
+                    }
+
+                    return items;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"func : listUserByArea -> failed -> Ex: {ex.Message}");
+                return new List<ItemUser>();
+            }
+
+        }
+
+        public async Task<bool> chooseShipper(string token, string shipper, string order)
+        {
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(shipper) || string.IsNullOrEmpty(order))
+            {
+                return false;
+            }
+
+            using (DataContext context = new DataContext())
+            {
+                SqlUser? m_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.role).FirstOrDefault();
+                if (m_user == null)
+                {
+                    return false;
+                }
+
+                if (m_user.role!.code.CompareTo("shipper") == 0)
+                {
+                    return false;
+                }
+
+                SqlUser? m_shipper = context.users!.Where(s => s.isdeleted == false && s.code.CompareTo(shipper) == 0).FirstOrDefault();
+                if(m_shipper == null)
+                {
+                    return false;
+                }
+
+                await Program.api_order.setStateOrderAsync(shipper, order, "shipping");
+
+                int rows = await context.SaveChangesAsync();
+                if (rows > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

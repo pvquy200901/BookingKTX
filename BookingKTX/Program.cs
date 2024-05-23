@@ -21,6 +21,7 @@ public class Program
     public static MyShop api_shop = new MyShop();
     public static MyProduct api_product = new MyProduct();
     public static MyCustomer api_customer = new MyCustomer();
+    public static MyOrder api_order = new MyOrder();
 
     /*public static IHubContext<NotificationDeviceHub>? notificationDeviceHub;
     public static IHubContext<NotificationUserHub>? notificationUserHub;*/
@@ -131,6 +132,7 @@ public class Program
             await api_type.initAsync();
             await api_user.initAsync();
             await api_role.initAsync();
+            await api_state.initAsync();
             //api_file.initCreateTargetFile("EXB_1");
 
             app.Run();

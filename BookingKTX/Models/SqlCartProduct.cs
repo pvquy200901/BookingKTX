@@ -12,5 +12,6 @@ namespace BookingKTX.Models
         public int quantity { get; set; }
         public SqlProduct? product { get; set; }
         public bool isdeleted { get; set; } = false;
+        public bool isFinish { get; set; } = false;
     }
 }

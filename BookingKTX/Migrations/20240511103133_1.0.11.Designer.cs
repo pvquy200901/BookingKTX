@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BookingKTX.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingKTX.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240511103133_1.0.11")]
+    partial class _1011
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,9 +107,6 @@ namespace BookingKTX.Migrations
 
                     b.Property<long?>("SqlOrderID")
                         .HasColumnType("bigint");
-
-                    b.Property<bool>("isFinish")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("isdeleted")
                         .HasColumnType("boolean");
@@ -231,9 +231,6 @@ namespace BookingKTX.Migrations
                     b.Property<long?>("orderID")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("stateID")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("time")
                         .HasColumnType("timestamp with time zone");
 
@@ -245,8 +242,6 @@ namespace BookingKTX.Migrations
                     b.HasIndex("actionID");
 
                     b.HasIndex("orderID");
-
-                    b.HasIndex("stateID");
 
                     b.HasIndex("userID");
 
@@ -343,9 +338,6 @@ namespace BookingKTX.Migrations
                     b.Property<long?>("shopID")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("totalBuy")
-                        .HasColumnType("integer");
-
                     b.HasKey("ID");
 
                     b.HasIndex("shopID");
@@ -399,10 +391,6 @@ namespace BookingKTX.Migrations
 
                     b.Property<DateTime>("createdTime")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("des")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("image")
                         .IsRequired()
@@ -506,14 +494,6 @@ namespace BookingKTX.Migrations
                     b.Property<bool>("isdeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("latitude")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("longitude")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("password")
                         .IsRequired()
                         .HasColumnType("text");
@@ -587,12 +567,8 @@ namespace BookingKTX.Migrations
                         .HasForeignKey("actionID");
 
                     b.HasOne("BookingKTX.Models.SqlOrder", "order")
-                        .WithMany("logs")
-                        .HasForeignKey("orderID");
-
-                    b.HasOne("BookingKTX.Models.SqlState", "state")
                         .WithMany()
-                        .HasForeignKey("stateID");
+                        .HasForeignKey("orderID");
 
                     b.HasOne("BookingKTX.Models.SqlUser", "user")
                         .WithMany()
@@ -601,8 +577,6 @@ namespace BookingKTX.Migrations
                     b.Navigation("action");
 
                     b.Navigation("order");
-
-                    b.Navigation("state");
 
                     b.Navigation("user");
                 });
@@ -680,8 +654,6 @@ namespace BookingKTX.Migrations
             modelBuilder.Entity("BookingKTX.Models.SqlOrder", b =>
                 {
                     b.Navigation("cartProducts");
-
-                    b.Navigation("logs");
                 });
 
             modelBuilder.Entity("BookingKTX.Models.SqlShop", b =>

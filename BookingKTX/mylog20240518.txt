@@ -1,0 +1,26 @@
+2024-05-18 10:15:54.967 +07:00 [INF] Connected to Server at : 5/18/2024 10:15:54 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 14:39:12.986 +07:00 [INF] Connected to Server at : 5/18/2024 2:39:12 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 14:53:50.810 +07:00 [INF] Connected to Server at : 5/18/2024 2:53:50 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 14:54:14.854 +07:00 [INF] Connected to Server at : 5/18/2024 2:54:14 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 14:59:30.050 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-18 14:59:59.417 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-18 15:00:35.498 +07:00 [INF] Connected to Server at : 5/18/2024 3:00:35 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 15:25:05.669 +07:00 [INF] Connected to Server at : 5/18/2024 3:25:05 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 15:28:52.186 +07:00 [INF] Connected to Server at : 5/18/2024 3:28:52 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 15:29:23.965 +07:00 [INF] Connected to Server at : 5/18/2024 3:29:23 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 15:38:59.221 +07:00 [INF] Connected to Server at : 5/18/2024 3:38:59 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-18 20:53:24.389 +07:00 [INF] Connected to Server at : 5/18/2024 8:53:24 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 

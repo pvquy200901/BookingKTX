@@ -12,6 +12,8 @@ namespace BookingKTX.Models
         public string username { get; set; } = "";
         public string password { get; set; } = "";
         public string token { get; set; } = "";
+        public string latitude { get; set; } = "";
+        public string longitude { get; set; } = "";
         public string displayName { get; set; } = "";
         public bool isdeleted { get; set; } = false;
         public List<string>? images { get; set; }

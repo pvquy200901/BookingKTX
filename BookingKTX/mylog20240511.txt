@@ -1,0 +1,49 @@
+2024-05-11 16:07:42.322 +07:00 [INF] Connected to Server at : 5/11/2024 4:07:42 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 16:37:21.987 +07:00 [INF] Connected to Server at : 5/11/2024 4:37:21 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 16:52:04.677 +07:00 [INF] Connected to Server at : 5/11/2024 4:52:04 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 16:59:19.985 +07:00 [INF] Connected to Server at : 5/11/2024 4:59:19 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 17:00:58.052 +07:00 [INF] Connected to Server at : 5/11/2024 5:00:58 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 17:03:09.479 +07:00 [INF] Connected to Server at : 5/11/2024 5:03:09 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 17:09:22.980 +07:00 [INF] Connected to Server at : 5/11/2024 5:09:22 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 17:31:32.700 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-11 17:31:57.065 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-11 17:32:09.112 +07:00 [INF] Connected to Server at : 5/11/2024 5:32:09 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 21:40:45.703 +07:00 [INF] Connected to Server at : 5/11/2024 9:40:45 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 22:19:41.983 +07:00 [INF] Connected to Server at : 5/11/2024 10:19:41 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 23:20:12.587 +07:00 [INF] Connected to Server at : 5/11/2024 11:20:12 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 23:34:47.996 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-11 23:35:02.127 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-11 23:35:18.313 +07:00 [INF] Connected to Server at : 5/11/2024 11:35:18 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 23:36:37.784 +07:00 [INF] Connected to Server at : 5/11/2024 11:36:37 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 23:37:53.172 +07:00 [INF] Connected to Server at : 5/11/2024 11:37:53 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 23:40:08.339 +07:00 [INF] Connected to Server at : 5/11/2024 11:40:08 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 23:41:54.126 +07:00 [INF] Connected to Server at : 5/11/2024 11:41:54 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-11 23:44:43.699 +07:00 [INF] Connected to Server at : 5/11/2024 11:44:43 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 

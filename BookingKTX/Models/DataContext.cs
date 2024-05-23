@@ -18,6 +18,8 @@ namespace BookingKTX.Models
         public DbSet<SqlState>? states { get; set; }
         public DbSet<SqlType>? types { get; set; }
         public DbSet<SqlCart>? carts { get; set; }
+        public DbSet<SqlCartOrder>? cartOrders { get; set; }
+        public DbSet<SqlCartProduct>? cartProducts { get; set; }
 
 
 

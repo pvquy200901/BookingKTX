@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BookingKTX.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingKTX.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240512102740_1.0.13")]
+    partial class _1013
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,9 +346,6 @@ namespace BookingKTX.Migrations
                     b.Property<long?>("shopID")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("totalBuy")
-                        .HasColumnType("integer");
-
                     b.HasKey("ID");
 
                     b.HasIndex("shopID");
@@ -399,10 +399,6 @@ namespace BookingKTX.Migrations
 
                     b.Property<DateTime>("createdTime")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("des")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("image")
                         .IsRequired()
@@ -505,14 +501,6 @@ namespace BookingKTX.Migrations
 
                     b.Property<bool>("isdeleted")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("latitude")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("longitude")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("password")
                         .IsRequired()

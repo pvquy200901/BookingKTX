@@ -1,0 +1,11 @@
+2024-05-16 10:44:22.548 +07:00 [INF] Connected to Server at : 5/16/2024 10:44:22 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 10:57:01.736 +07:00 [INF] Connected to Server at : 5/16/2024 10:57:01 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 10:59:53.327 +07:00 [INF] Connected to Server at : 5/16/2024 10:59:53 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 11:03:57.032 +07:00 [INF] Connected to Server at : 5/16/2024 11:03:57 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 11:08:11.399 +07:00 [INF] Connected to Server at : 5/16/2024 11:08:11 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 11:08:27.131 +07:00 [INF] Connected to Server at : 5/16/2024 11:08:27 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 11:11:32.584 +07:00 [INF] Connected to Server at : 5/16/2024 11:11:32 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 11:17:20.510 +07:00 [INF] Connected to Server at : 5/16/2024 11:17:20 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 11:19:25.523 +07:00 [INF] Connected to Server at : 5/16/2024 11:19:25 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 15:24:59.901 +07:00 [INF] Connected to Server at : 5/16/2024 3:24:59 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-16 15:35:45.739 +07:00 [INF] Connected to Server at : 5/16/2024 3:35:45 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 

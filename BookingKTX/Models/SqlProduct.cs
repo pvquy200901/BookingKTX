@@ -13,6 +13,7 @@ namespace BookingKTX.Models
         public decimal price { get; set; }
         public decimal priceBuy { get; set; }
         public int quantity { get; set; }
+        public int totalBuy { get; set; }
         public List<string>? images { get; set; }
         public bool isdeleted { get; set; } = false;
         public SqlShop? shop { get; set; }

@@ -1,0 +1,38 @@
+2024-05-13 09:08:34.374 +07:00 [INF] Connected to Server at : 5/13/2024 9:08:34 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 09:39:17.512 +07:00 [INF] Connected to Server at : 5/13/2024 9:39:17 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 09:41:11.083 +07:00 [INF] Connected to Server at : 5/13/2024 9:41:11 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 09:42:48.235 +07:00 [INF] Connected to Server at : 5/13/2024 9:42:48 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 09:48:54.651 +07:00 [INF] Connected to Server at : 5/13/2024 9:48:54 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 09:52:58.187 +07:00 [INF] Connected to Server at : 5/13/2024 9:52:58 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 09:57:59.388 +07:00 [INF] Connected to Server at : 5/13/2024 9:57:59 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 10:12:59.690 +07:00 [INF] Connected to Server at : 5/13/2024 10:12:59 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 10:16:34.777 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-13 10:17:14.492 +07:00 [ERR] Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at BookingKTX.Program.Main(String[] args) in D:\BookingKTX\BookingKTX\Program.cs:line 90
+2024-05-13 10:18:31.731 +07:00 [INF] Connected to Server at : 5/13/2024 10:18:31 AM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 16:09:45.713 +07:00 [INF] Connected to Server at : 5/13/2024 4:09:45 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 16:14:33.713 +07:00 [INF] Connected to Server at : 5/13/2024 4:14:33 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 17:19:39.418 +07:00 [INF] Connected to Server at : 5/13/2024 5:19:39 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 20:07:40.668 +07:00 [INF] Connected to Server at : 5/13/2024 8:07:40 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 20:13:41.728 +07:00 [INF] Connected to Server at : 5/13/2024 8:13:41 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 20:15:49.401 +07:00 [INF] Connected to Server at : 5/13/2024 8:15:49 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 20:19:19.440 +07:00 [INF] Connected to Server at : 5/13/2024 8:19:19 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 20:30:32.133 +07:00 [INF] Connected to Server at : 5/13/2024 8:30:32 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 20:32:04.180 +07:00 [INF] Connected to Server at : 5/13/2024 8:32:04 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 22:19:32.326 +07:00 [INF] Connected to Server at : 5/13/2024 10:19:32 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 22:24:39.215 +07:00 [INF] Connected to Server at : 5/13/2024 10:24:39 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 22:25:23.019 +07:00 [INF] Connected to Server at : 5/13/2024 10:25:23 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 
+2024-05-13 22:26:25.911 +07:00 [INF] Connected to Server at : 5/13/2024 10:26:25 PM with : Host=localhost:5432;Database=db_booking_ktx;Username=postgres;Password=postgres 

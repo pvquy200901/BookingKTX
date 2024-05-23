@@ -26,16 +26,17 @@ namespace BookingKTX.APIs
                 return code;
             }
         }
-        public async Task<bool> createShopAsync(string token,string name, string type, byte[] image)
+        public async Task<bool> createShopAsync(string token,string name, string? type, byte[] image)
         {
             if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(name))
             {
                 return false;
             }
+            string codefile = "";
 
             using (var context = new DataContext())
             {
-                SqlUser? own_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.role).FirstOrDefault();
+                SqlUser? own_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.role).Include(s => s.shop).FirstOrDefault();
                 if (own_user == null || own_user.role!.code.CompareTo("shipper") == 0)
                 {
                     return false;
@@ -52,6 +53,12 @@ namespace BookingKTX.APIs
                     shop.users = new List<SqlUser>();
                 }
                 shop.users.Add(own_user);
+                codefile = await Program.api_file.saveFileAsync(DateTime.Now.Ticks.ToString(), image);
+                if (string.IsNullOrEmpty(codefile))
+                {
+                    return false;
+                }
+                shop.image = codefile;
 
                 SqlType? m_type = context.types!.Where(s => s.isdeleted == false && s.code.CompareTo(type) == 0).FirstOrDefault();
                 if(m_type == null)
@@ -61,6 +68,11 @@ namespace BookingKTX.APIs
 
                 shop.type = m_type;
 
+                if(own_user.shop == null)
+                {
+                    own_user.shop = shop;
+                }
+
                 context.shops!.Add(shop);
                 
 
@@ -69,7 +81,7 @@ namespace BookingKTX.APIs
             }
         }
 
-        public async Task<bool> editShopAsync(string token, string code, string name, string type)
+        public async Task<bool> editShopAsync(string token, string? code, string name, string? type, byte[]? image)
         {
             if (string.IsNullOrEmpty(code))
             {
@@ -78,34 +90,82 @@ namespace BookingKTX.APIs
             using (DataContext context = new DataContext())
             {
 
-
+                string codefile = "";
                 SqlUser? tmp = context.users!.Where(s => s.token.CompareTo(token) == 0 && s.isdeleted == false).Include(s => s.role).Include(s => s.shop).FirstOrDefault();
                 if (tmp == null || tmp.role!.code.CompareTo("shipper") == 0)
                 {
                     return false;
                 }
 
-                if (tmp.shop == null || tmp.shop.code.CompareTo(code) != 0)
+                if(tmp.role.code.CompareTo("admin") == 0)
                 {
-                    return false;
-                }
-
-                if (!string.IsNullOrEmpty(name))
-                {
-                    tmp.shop.name = name;
-                }
-
-                if (!string.IsNullOrEmpty(type))
-                {
-                    SqlType? tmpType = context.types!.Where(s => s.isdeleted == false && s.code.CompareTo(type) == 0).FirstOrDefault();
-                    if(tmpType == null)
+                    SqlShop? shop = context.shops!.Where(s => s.isdeleted == false && s.code.CompareTo(code) == 0).FirstOrDefault();
+                    if(shop == null)
                     {
                         return false;
                     }
 
-                    tmp.shop.type = tmpType;
-                }
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        shop.name = name;
+                    }
 
+                    if (!string.IsNullOrEmpty(type))
+                    {
+                        SqlType? tmpType = context.types!.Where(s => s.isdeleted == false && s.code.CompareTo(type) == 0).FirstOrDefault();
+                        if (tmpType == null)
+                        {
+                            return false;
+                        }
+
+                        shop.type = tmpType;
+                    }
+
+                    if (image != null)
+                    {
+                        codefile = await Program.api_file.saveFileAsync(DateTime.Now.Ticks.ToString(), image);
+                        if (string.IsNullOrEmpty(codefile))
+                        {
+                            return false;
+                        }
+                        shop.image = codefile;
+                    }
+
+
+                }
+                else
+                {
+                    if (tmp.shop == null || tmp.shop.code.CompareTo(code) != 0)
+                    {
+                        return false;
+                    }
+
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        tmp.shop.name = name;
+                    }
+
+                    if (!string.IsNullOrEmpty(type))
+                    {
+                        SqlType? tmpType = context.types!.Where(s => s.isdeleted == false && s.code.CompareTo(type) == 0).FirstOrDefault();
+                        if (tmpType == null)
+                        {
+                            return false;
+                        }
+
+                        tmp.shop.type = tmpType;
+                    }
+
+                    if (image != null)
+                    {
+                        codefile = await Program.api_file.saveFileAsync(DateTime.Now.Ticks.ToString(), image);
+                        if (string.IsNullOrEmpty(codefile))
+                        {
+                            return false;
+                        }
+                        tmp.shop.image = codefile;
+                    }
+                }
                 int rows = await context.SaveChangesAsync();
                 return true;
             }
@@ -225,8 +285,9 @@ namespace BookingKTX.APIs
             public string code { get; set; } = "";
             public string name { get; set; } = "";
             public string image { get; set; } = "";
+            public string des { get; set; } = "";
             public List<itemUser>? users { get; set; }
-            public List<itemProduct>? products { get; set; }
+            public List<itemProduct> products { get; set; } = new List<itemProduct>();
         }
 
         public List<ShopItem> getListShop()
@@ -249,6 +310,7 @@ namespace BookingKTX.APIs
                         item.code = shop.code;
                         item.name = shop.name;
                         item.image = shop.image;
+                        item.des = shop.des;
 
                         item.users = shop.users!.Select(x => new itemUser
                         {
@@ -274,6 +336,43 @@ namespace BookingKTX.APIs
                 return new List<ShopItem>();
             }
 
+        }
+
+        public ShopItem getInfoShop (string token)
+        {
+            using (var context = new DataContext())
+            {
+                ShopItem tmp = new ShopItem();
+                SqlUser? own_user = context.users!.Where(s => s.isdeleted == false && s.token.CompareTo(token) == 0).Include(s => s.role).Include(s => s.shop).ThenInclude(s => s.products).FirstOrDefault();
+                if (own_user == null ||  own_user.shop == null)
+                {
+                    return new ShopItem();
+                }
+
+                tmp.code = own_user.shop.code;
+                tmp.name = own_user.shop.name;
+                tmp.image = own_user.shop.image;
+
+                if(own_user.shop.products != null)
+                {
+                    foreach (SqlProduct item in own_user.shop.products)
+                    {
+                        if(item.isdeleted == false)
+                        {
+                            itemProduct product = new itemProduct();
+
+                            product.code = item.code;
+                            product.name = item.name;
+                            product.image = item.images;
+
+                            tmp.products.Add(product);
+                        }
+                    }
+                }
+
+                return tmp;
+
+            }
         }
     }
 }
